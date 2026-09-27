@@ -1,0 +1,55 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow one concurrent deployment; a queued run supersedes an older one rather than
+# racing it, but an in-progress deploy is never cancelled half-written.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # dist/CNAME comes from public/CNAME, so the custom domain survives every deploy.
+      # Without it GitHub Pages drops the domain and euchre.thatsmysecret.net stops
+      # resolving — which would take the App Store privacy and support URLs down with it.
+      - name: Verify the build output the App Store listing depends on
+        run: |
+          set -e
+          test -f dist/CNAME || { echo "dist/CNAME missing — custom domain would be dropped"; exit 1; }
+          grep -q 'euchre.thatsmysecret.net' dist/CNAME
+          test -f dist/privacy.html || { echo "dist/privacy.html missing"; exit 1; }
+          test -f dist/support.html || { echo "dist/support.html missing"; exit 1; }
+          grep -q 'does not collect, store, transmit, or sell' dist/privacy.html
+          grep -q 'left bower' dist/support.html
+          echo "OK: CNAME, privacy.html and support.html all present with prerendered text"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
