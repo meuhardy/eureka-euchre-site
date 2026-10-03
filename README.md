@@ -6,6 +6,9 @@ served at **https://euchre.thatsmysecret.net**.
 React + Vite + Tailwind, built to static files and deployed to GitHub Pages by
 `.github/workflows/deploy.yml` on every push to `main`.
 
+This needs Settings → Pages → Source set to **GitHub Actions**. On "Deploy from a branch",
+Pages serves `main` unbuilt, and `/privacy/` and `/support/` render as blank pages.
+
 ## The constraint this site is built around
 
 `/privacy/` and `/support/` are filed with App Store Connect as the app's
