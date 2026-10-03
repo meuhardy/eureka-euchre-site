@@ -35,11 +35,11 @@ jobs:
           set -e
           test -f dist/CNAME || { echo "dist/CNAME missing — custom domain would be dropped"; exit 1; }
           grep -q 'euchre.thatsmysecret.net' dist/CNAME
-          test -f dist/privacy.html || { echo "dist/privacy.html missing"; exit 1; }
-          test -f dist/support.html || { echo "dist/support.html missing"; exit 1; }
-          grep -q 'does not collect, store, transmit, or sell' dist/privacy.html
-          grep -q 'left bower' dist/support.html
-          echo "OK: CNAME, privacy.html and support.html all present with prerendered text"
+          test -f dist/privacy/index.html || { echo "dist/privacy/index.html missing"; exit 1; }
+          test -f dist/support/index.html || { echo "dist/support/index.html missing"; exit 1; }
+          grep -q 'does not collect, store, transmit, or sell' dist/privacy/index.html
+          grep -q 'left bower' dist/support/index.html
+          echo "OK: CNAME, /privacy/ and /support/ all present with prerendered text"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -10,10 +10,10 @@ export function Footer() {
           advertising.
         </p>
         <div className="flex gap-4 sm:ml-auto">
-          <a href="/support.html" style={{ color: 'var(--link)' }}>
+          <a href="/support/" style={{ color: 'var(--link)' }}>
             Support
           </a>
-          <a href="/privacy.html" style={{ color: 'var(--link)' }}>
+          <a href="/privacy/" style={{ color: 'var(--link)' }}>
             Privacy
           </a>
           <a href="mailto:support@thatsmysecret.net" style={{ color: 'var(--link)' }}>

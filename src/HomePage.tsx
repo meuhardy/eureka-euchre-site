@@ -14,7 +14,7 @@ export function HomePage() {
           <h2 className="m-0 text-2xl font-semibold tracking-tight">Questions?</h2>
           <p className="mt-3 mb-0 max-w-2xl" style={{ color: 'var(--muted)' }}>
             The{' '}
-            <a href="/support.html" style={{ color: 'var(--link)' }}>
+            <a href="/support/" style={{ color: 'var(--link)' }}>
               support page
             </a>{' '}
             answers the common ones — how multiplayer works, why your jack changed suit, what

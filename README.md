@@ -8,16 +8,17 @@ React + Vite + Tailwind, built to static files and deployed to GitHub Pages by
 
 ## The constraint this site is built around
 
-`/privacy.html` and `/support.html` are filed with App Store Connect as the app's
+`/privacy/` and `/support/` are filed with App Store Connect as the app's
 **Privacy Policy URL** and **Support URL**. Apple checks them. That drives two decisions
 that should not be undone casually:
 
-1. **The build is multi-page, not a single-page app.** `vite.config.ts` declares all three
-   HTML files as entry points, so each is a real file at its own path. Client-side routes
-   would 404 on a cold hit.
+1. **The build is multi-page, not a single-page app.** `vite.config.ts` declares
+   `index.html`, `privacy/index.html`, and `support/index.html` as entry points, so each
+   route is a real file. Client-side routes would 404 on a cold hit. There is no
+   `/privacy.html` or `/support.html`; those paths 404.
 2. **Every page is prerendered.** `npm run build` does an SSR pass (`src/entry-server.tsx`)
    and injects the rendered markup into each page's `#root` before the client hydrates it.
-   Fetch `privacy.html` with JavaScript disabled and the full policy is there in the source.
+   Fetch `/privacy/` with JavaScript disabled and the full policy is there in the source.
 
 The deploy workflow asserts both, plus the presence of `dist/CNAME`, and fails rather than
 publishing a site that would break those URLs.

@@ -1,8 +1,8 @@
 const links = [
   { href: '/#features', label: 'Features' },
   { href: '/#screens', label: 'Screens' },
-  { href: '/support.html', label: 'Support' },
-  { href: '/privacy.html', label: 'Privacy' },
+  { href: '/support/', label: 'Support' },
+  { href: '/privacy/', label: 'Privacy' },
 ]
 
 export function Nav({ onDark = false }: { onDark?: boolean }) {
