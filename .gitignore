@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.asset-src/
+.DS_Store
+*.local
+dist-ssr/

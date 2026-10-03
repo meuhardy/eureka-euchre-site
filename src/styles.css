@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* Palette taken from the app itself: felt green table, navy card backs, the amber of the
+   "Order Up" button. Light is the default; dark is a token swap, never a separate design. */
+@theme {
+  --color-felt-50: #eef6f1;
+  --color-felt-100: #d3e9dc;
+  --color-felt-500: #1a6135;
+  --color-felt-600: #14502b;
+  --color-felt-700: #0f3d21;
+  --color-felt-900: #0a2616;
+  --color-amber-brand: #c2661c;
+  --color-gold: #b8860b;
+  --color-navy: #2c4a7c;
+
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --bg: #fbf9f5;
+  --surface: #ffffff;
+  --fg: #16201a;
+  --muted: #5b6672;
+  --rule: #e3e8ee;
+  --link: #14502b;
+  --accent: #1a6135;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1512;
+    --surface: #131e19;
+    --fg: #e8efe9;
+    --muted: #9aa7b4;
+    --rule: #24332c;
+    --link: #7fd0a0;
+    --accent: #5fbf87;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0d1512;
+  --surface: #131e19;
+  --fg: #e8efe9;
+  --muted: #9aa7b4;
+  --rule: #24332c;
+  --link: #7fd0a0;
+  --accent: #5fbf87;
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The felt background behind the hero and the screenshot rail. */
+.felt {
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.10), transparent 60%),
+    linear-gradient(180deg, var(--color-felt-600), var(--color-felt-700));
+}
+
+/* Long-form legal copy. Plain element selectors so the ported markup stays readable and
+   diffable against the original HTML. */
+.prose-page { line-height: 1.65; }
+.prose-page h2 {
+  margin: 2.2rem 0 0.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.prose-page h3 {
+  margin: 1.5rem 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.prose-page p { margin: 0.8rem 0; }
+.prose-page ul { margin: 0.8rem 0; padding-left: 1.25rem; list-style: disc; }
+.prose-page li { margin: 0.3rem 0; }
+.prose-page a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+.prose-page strong { font-weight: 600; }
