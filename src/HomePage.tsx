@@ -1,6 +1,7 @@
 import { Hero } from './components/Hero'
 import { Features } from './components/Features'
 import { Screens } from './components/Screens'
+import { CardBacks } from './components/CardBacks'
 import { Footer } from './components/Footer'
 
 export function HomePage() {
@@ -10,6 +11,7 @@ export function HomePage() {
       <main>
         <Features />
         <Screens />
+        <CardBacks />
         <section className="mx-auto max-w-5xl px-5 py-16 md:py-20">
           <h2 className="m-0 text-2xl font-semibold tracking-tight">Questions?</h2>
           <p className="mt-3 mb-0 max-w-2xl" style={{ color: 'var(--muted)' }}>
