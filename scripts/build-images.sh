@@ -5,12 +5,16 @@
 # Source of truth is the iOS repo's submission branch — the same screenshots and icon that
 # go to App Store Connect, so the site can never show artwork the store does not.
 #
+# Card backs come from BACKS_REF, which defaults to the card backs feature branch until it
+# merges; the backs aren't on the submission branch yet.
+#
 # Usage: scripts/build-images.sh [path-to-ios-repo] [ref]
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 REPO="${1:-../Euhardy-euchre}"
 REF="${2:-origin/feature/app-store-submission-prep}"
+BACKS_REF="${BACKS_REF:-origin/feature/card-backs}"
 SRC="$(mktemp -d)"
 OUT="public/img"
 trap 'rm -rf "$SRC"' EXIT
@@ -19,6 +23,7 @@ command -v cwebp >/dev/null || { echo "cwebp not found — brew install webp"; e
 mkdir -p "$OUT"
 
 extract() { git -C "$REPO" show "${REF}:$1" > "$SRC/$2"; }
+extract_back() { git -C "$REPO" show "${BACKS_REF}:$1" > "$SRC/$2"; }
 
 for n in 1-menu 2-game 3-tutorial 4-stats 5-awards; do
   extract "docs/store/screenshots/iphone-6.9/${n}.jpg" "phone-${n}.jpg"
@@ -40,6 +45,21 @@ for f in "$SRC"/tablet-*.jpg; do
   sips --resampleWidth 760 "$f" --out "$SRC/t.png" >/dev/null 2>&1
   cwebp -quiet -q 80 "$SRC/t.png" -o "$OUT/tablet-${name}.webp"
 done
+
+# Card backs: the @3x art (234px wide) is already the right size for a ~112px tile at 2x.
+for n in madison caviar tennis bowers; do
+  extract_back "Eureka Euchre/Eureka Euchre/Assets.xcassets/back_${n}.imageset/back_${n}@3x.png" "back-${n}.png"
+  cwebp -quiet -q 85 -exact "$SRC/back-${n}.png" -o "$OUT/back-${n}.webp"
+done
+# Classic is drawn in code by proceduralBackTexture (GameScene.swift), so there is no asset
+# to copy; this reproduces it at the in-game 78 x 114 pt size. The white edge comes from CSS,
+# as it does for every back on the page.
+cat > "$OUT/back-classic.svg" <<'SVG'
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 114" width="234" height="342">
+  <rect x="0" y="0" width="78" height="114" rx="6" fill="rgb(46,79,140)"/>
+  <rect x="4" y="4" width="70" height="106" rx="4" fill="rgb(33,59,107)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+</svg>
+SVG
 
 sips -Z 512 "$SRC/icon.png" --out "$SRC/i512.png" >/dev/null 2>&1
 cwebp -quiet -q 90 "$SRC/i512.png" -o "$OUT/app-icon.webp"
