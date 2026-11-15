@@ -5,8 +5,8 @@
 # Source of truth is the iOS repo's submission branch — the same screenshots and icon that
 # go to App Store Connect, so the site can never show artwork the store does not.
 #
-# Card backs come from BACKS_REF, which defaults to the card backs feature branch until it
-# merges; the backs aren't on the submission branch yet.
+# Card backs come from BACKS_REF, which defaults to develop, where the card backs merged;
+# the backs aren't on the submission branch yet.
 #
 # Usage: scripts/build-images.sh [path-to-ios-repo] [ref]
 set -euo pipefail
@@ -14,7 +14,7 @@ cd "$(dirname "$0")/.."
 
 REPO="${1:-../Euhardy-euchre}"
 REF="${2:-origin/feature/app-store-submission-prep}"
-BACKS_REF="${BACKS_REF:-origin/feature/card-backs}"
+BACKS_REF="${BACKS_REF:-origin/develop}"
 SRC="$(mktemp -d)"
 OUT="public/img"
 trap 'rm -rf "$SRC"' EXIT
