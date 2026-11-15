@@ -67,7 +67,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* The felt background behind the hero and the screenshot rail. */
+/* The felt background behind the hero, the screenshot rail, and the card back tray. */
 .felt {
   background:
     radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.10), transparent 60%),
